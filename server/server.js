@@ -1,15 +1,29 @@
 const express = require('express');
 const mongoose = require ('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parse');
+const bodyParser = require('body-parser');
 const crypto = require ('crypto');
 const { timeStamp } = require('console');
 
 const app = express();
-app.use(cors());
+const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+    origin : 'http://localhost:5173/',
+    methods : ['GET', 'POST', 'DELETE', 'PUT'],
+    allowedHeaders : [
+       'Content-Type',
+        'Authorization',
+        'Cache-Control',
+        'Expires',
+        'Pragma'
+    ],
+    credentials : true
+}));
 app.use(express.json());
 app.use(bodyParser.urlencoded({extend:true}));
 
+app.listen(PORT, ()=> console.log(`server is connected ${PORT}`))
 mongoose.connect('mongodb+srv://Kanchisaw:Kanchi03@cluster0.f1fmc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
 {
     usenewUrlParser: true,
